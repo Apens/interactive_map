@@ -1,5 +1,6 @@
 <?php
-include 'bd_login_info.php';
+include 'bd_login_info. php';
+session_start();
 
 try {
     $conn= new PDO($attr,$user,$pass,$opts);
@@ -15,9 +16,17 @@ function queryMysql($query){
 
 //Crud des tables
 /* User */
-function createUser($username, $email, $password, $role){
+function createUser($username, $email, $password, $role= null){
     global $conn;
-    $reqSql = "INSERT INTO user(username, email, password, role ) VALUE(:username, :email, :firstname, :lastname, :password, :role )";
+    $users = getUsers();
+    if ($users == null){
+        $role = "ADMIN";
+    } else {
+        $role = "USER";
+    }
+    var_dump($role);
+    $reqSql = "INSERT INTO user(username, email, password, role ) 
+                VALUE(:username, :email, :password, :role )";
     $statement = $conn->prepare($reqSql);
     $statement->execute([
         ':email' => $email,
@@ -28,10 +37,45 @@ function createUser($username, $email, $password, $role){
 
 }
 
+function getUsers(){
+    $reqSql = "SELECT * FROM user";
+    return queryMysql($reqSql)->fetchAll();
+}
+
 function readUser($email, $password){
     $reqSql = "SELECT * FROM user WHERE email ='$email' AND password='$password'";
     $user = queryMysql($reqSql);
     return queryMysql($reqSql);
+
+}
+
+function userLogin($email, $password){
+   $user = readUser($email, $password);
+
+   if ($user->rowCount() == 0){
+//       var_dump('bug');
+        return ["error"=>"Utilisateur ou mot de passe invalide"];
+   } else {
+        $userData = $user->fetch();
+//        var_dump($userData);
+
+        $_SESSION['user'] = [
+            'id'       => $userData['id'],
+            'username' => $userData['username'],
+            'email'    => $userData['email'],
+            'role'     => $userData['role']
+        ];
+
+        return [
+            "status_code" => 200,
+            "user" => [
+                'id'       => $userData['id'],
+                'username' => $userData['username'],
+                'email'    => $userData['email'],
+                'role'     => $userData['role']
+                ]
+            ];
+   }
 
 }
 
@@ -46,6 +90,7 @@ function deleteUser($userId){
 }
 
 /* Category */
+
 
 function createCategory($name){
     global $conn;
@@ -135,9 +180,12 @@ function deleteDistrict($districtId){
 }
 
 /* Place */
+
+
 function createPlace($name, $address, $type, $lat, $lng, $img, $parentCityId, $category_id){
     global $conn;
-    $reqSql ="INSERT INTO place(name, address, type, lat, lng, img, city_id, category_id) VALUE(:name, :address, :type, :lat, :lng, :img, :city_id, :category_id)";
+    $reqSql ="INSERT INTO place(name, address, type, lat, lng, img, city_id, category_id) 
+                VALUE(:name, :address, :type, :lat, :lng, :img, :city_id, :category_id)";
     $statement = $conn->prepare($reqSql);
     $statement->execute([
         ':name'=> $name,
