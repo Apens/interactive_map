@@ -1,5 +1,5 @@
 <?php
-include "backend/scripts/functions.php";
+include "../scripts/functions.php";
 
 $sql = 'CREATE DATABASE decodeuses';
 
