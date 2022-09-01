@@ -1,10 +1,10 @@
 <?php
-include "../scripts/functions.php";
+include "../scripts/bd_login_info.php";
 
 $sql = 'CREATE DATABASE decodeuses';
 
 try{
-    global $conn;
+    $conn = new PDO("mysql:host=$host", $user, $pass, $opts);
     $conn->exec($sql);
 }
 catch (PDOException $e)
