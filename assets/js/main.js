@@ -106,6 +106,7 @@ function cityMarker(){
         method: 'POST',
         headers: {
             "Content-Type": "application/x-www-form-urlencoded",
+
         },
         body:`cityId= 1`,
     })
@@ -147,6 +148,7 @@ function closePopup(){
 
     let data = new FormData(event.target);
     let value = Object.fromEntries(data.entries());
+    console.log(data, event.target, value);
 
     fetch(url, {
         method: 'POST',
