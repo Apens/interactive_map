@@ -1,5 +1,5 @@
 <?php
-include 'bd_login_info. php';
+include 'bd_login_info.php';
 session_start();
 
 try {
