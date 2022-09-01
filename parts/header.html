@@ -13,6 +13,22 @@
         <li class="flex flex-center">
             <a href="./settings.html"><img src="./assets/img/cog.svg" alt=""></a>
         </li>
-        
+        <li class="flex flex-center">
+            <button id="login" class="login-button" onclick="openPopup()">Se connecter</button>
+        </li>
     </ul>
 </nav>
+<div class="form-popup" id="loginPopup">
+    <form  class="form-container" id="loginForm" onsubmit="loginUser(event)">
+        <h1>Login</h1>
+
+        <label for="email"><b>Email</b></label>
+        <input type="text" placeholder="Votre Email" name="email" required>
+
+        <label for="password"><b>Password</b></label>
+        <input type="password" placeholder="Votre mot de passe" name="password" required>
+
+        <button type="submit" class="btn">Connection</button>
+        <button type="button" class="btn cancel" onclick="closePopup()">Close</button>
+    </form>
+</div>

@@ -18,7 +18,7 @@ fetch("./parts/footer.html")
 
 
 // Animate with barba.js // --------------------------------------------------
-// barba.init();
+barba.init();
 // barba.init({
 //     schema: {
 //         prefix: 'data-custom',
@@ -57,7 +57,7 @@ function onMapClick(e){
     if (clicMarker){
         map.removeLayer(clicMarker);
     }
-    let myform = "<form id='myform' name='form'>" +
+    let myform = "<form id='myform' name='form' onsubmit='placeForm(event)'>" +
         "<label for='name'>Nom</label>" +
         "<input type='text' name='name' id='name'>"+ "<br>" +
         "<label for='type'>type</label>" +
@@ -74,9 +74,12 @@ function onMapClick(e){
     clicMarker = new L.marker(e.latlng, {draggable:true}).addTo(map).bindPopup(myform);
 }
 
-document.addEventListener('submit', function (event){
+//Traitement form
+function placeForm(event){
     event.preventDefault();
     let url = '/interactive_map/backend/action/create/createPlace.php';
+
+
     let data = new FormData(event.target);
     let value = Object.fromEntries(data.entries());
 
@@ -93,7 +96,7 @@ document.addEventListener('submit', function (event){
         return response.json();
     })
     .then((data)=>console.log(data))
-})
+}
 
 
 function cityMarker(){
@@ -124,7 +127,48 @@ async function showDistricts(){
             .bindPopup(district.name)
     });
 }
+// login // -------------------------------------------------------------
 
+
+
+
+function openPopup(){
+    document.getElementById("loginPopup").style.display = "block";
+}
+
+function closePopup(){
+    document.getElementById("loginPopup").style.display = "none";
+}
+
+ function loginUser(event){
+    event.preventDefault();
+    // console.log(event);
+    let url = '/interactive_map/backend/action/loginScript.php';
+
+    let data = new FormData(event.target);
+    let value = Object.fromEntries(data.entries());
+
+    fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(value),
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+        }
+    })
+        .then((response)=> response.json())
+        .then((data)=> {
+            sessionStorage.setItem('user', JSON.stringify(data.response.user));
+            // console.log(data.response.user)
+        })
+
+
+}
+function userLogout(){
+    if (sessionStorage.getItem('user')){
+        sessionStorage.clear(); // vide toute la session
+        // sessionStorage.removeItem('user'); supprime uniquement les données de l'utilisateur dans la session
+    }
+}
 
 
 // L.marker([51.5, -0.09]).addTo(map)

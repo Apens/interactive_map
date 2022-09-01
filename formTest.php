@@ -5,13 +5,15 @@ if ($_POST){
     var_dump($_POST);
     extract($_POST);
 
-//    var_dump();
-    createDistrict($name, $lat, $lng, $parent_city);
+
+    var_dump($email, $password, $_SESSION);
+    userLogin($email, $password);
+//    createUser($username, $email, $password); fonctionne
+//    createDistrict($name, $lat, $lng, $parent_city); fonctionne
 }
-
-$city = readCity(1);
-
-var_dump($city, json_encode($city));
+var_dump($_SESSION);
+//$city = readCity(1); fonctionne
+//var_dump($city, json_encode($city));
 ?>
 <!doctype html>
 <html lang="en">
@@ -21,29 +23,39 @@ var_dump($city, json_encode($city));
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+
+    <script src="./assets/js/main.js" defer></script>
 </head>
 <body>
 form test
 
+<!--<form action="formTest.php" method="post">-->
+<!--    <div>-->
+<!--        <label for="username">Username</label>-->
+<!--        <input type="text" name="username">-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        <label for="email">Email</label>-->
+<!--        <input type="text" name="email">-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        <label for="password">Mot de passe</label>-->
+<!--        <input type="text" name="password">-->
+<!--    </div>-->
+<!---->
+<!--    <input type="submit">-->
+
 <form action="formTest.php" method="post">
     <div>
-        <label for="name">arrondissment</label>
-        <input type="text" name="name">
+        <label for="email">Email</label>
+        <input type="text" name="email">
     </div>
     <div>
-        <label for="lat">lat de la ville</label>
-        <input type="number" step="any" name="lat">
+        <label for="password">Mot de passe</label>
+        <input type="text" name="password">
     </div>
-    <div>
-        <label for="lng">long de la ville</label>
-        <input type="number" step="any" name="lng">
-    </div>
-    <div>
-        <label for="parent_city">nom de la ville</label>
-        <input type="number" name="parent_city">
-    </div>
-
     <input type="submit">
+</form>
 </form>
 </body>
 </html>
