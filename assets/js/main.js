@@ -123,12 +123,25 @@ async function showDistricts(){
     console.log(districts);
 
     districts.forEach(function (district){
-        console.log(district)
+        // console.log(district)
         L.marker([district.lat, district.lng],{icon:purpleIcon}).addTo(map)
             .bindPopup(district.name)
     });
 }
 // login // -------------------------------------------------------------
+
+document.addEventListener("readystatechange", function (){
+    user= sessionStorage.getItem('user');
+    console.log(user);
+    if (user !== null){
+        document.getElementById('user_login').innerHTML = "<button id='logout' class='login-button' onclick='userLogout()'>déconnection</button>"
+    } else {
+        document.getElementById('user_login').innerHTML = "<button id='login' class='login-button' onclick='openPopup()'>Se connecter</button>"
+    }
+
+
+    console.log(document.getElementById('user_login'));
+})
 
 
 
@@ -161,14 +174,17 @@ function closePopup(){
         .then((data)=> {
             sessionStorage.setItem('user', JSON.stringify(data.response.user));
             // console.log(data.response.user)
+            window.location.reload();
         })
 
 
 }
 function userLogout(){
     if (sessionStorage.getItem('user')){
-        sessionStorage.clear(); // vide toute la session
+        sessionStorage.clear();// vide toute la session
         // sessionStorage.removeItem('user'); supprime uniquement les données de l'utilisateur dans la session
+        window.location.reload();
+
     }
 }
 

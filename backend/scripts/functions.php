@@ -2,6 +2,9 @@
 include 'bd_login_info.php';
 session_start();
 
+$mavariable = "toto";
+
+
 try {
     $conn= new PDO($attr,$user,$pass,$opts);
 }
@@ -17,6 +20,7 @@ function queryMysql($query){
 //Crud des tables
 /* User */
 function createUser($username, $email, $password, $role= null){
+
     global $conn;
     $users = getUsers();
     if ($users == null){
@@ -25,6 +29,7 @@ function createUser($username, $email, $password, $role= null){
         $role = "USER";
     }
     var_dump($role);
+
     $reqSql = "INSERT INTO user(username, email, password, role ) 
                 VALUE(:username, :email, :password, :role )";
     $statement = $conn->prepare($reqSql);

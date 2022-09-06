@@ -6,12 +6,17 @@ if ($_POST){
     extract($_POST);
 
 
-    var_dump($email, $password, $_SESSION);
-    userLogin($email, $password);
-//    createUser($username, $email, $password); fonctionne
+//    var_dump($email, $password, $username);
+//    userLogin($email, $password);
+
+    createUser($username, $email, $password);
+//    createUser($_POST['username'],$_POST['email'], $_POST['password']);
+// equivault a l'assertion ci dessus si on n'utilise pas extract()
+
+
 //    createDistrict($name, $lat, $lng, $parent_city); fonctionne
 }
-var_dump($_SESSION);
+//var_dump($_SESSION);
 //$city = readCity(1); fonctionne
 //var_dump($city, json_encode($city));
 ?>
@@ -29,11 +34,23 @@ var_dump($_SESSION);
 <body>
 form test
 
+<form action="formTest.php" method="post">
+    <div>
+        <label for="username">Username</label>
+        <input type="text" name="username">
+    </div>
+    <div>
+        <label for="email">Email</label>
+        <input type="text" name="email">
+    </div>
+    <div>
+        <label for="password">Mot de passe</label>
+        <input type="password" name="password">
+    </div>
+
+    <input type="submit">
+
 <!--<form action="formTest.php" method="post">-->
-<!--    <div>-->
-<!--        <label for="username">Username</label>-->
-<!--        <input type="text" name="username">-->
-<!--    </div>-->
 <!--    <div>-->
 <!--        <label for="email">Email</label>-->
 <!--        <input type="text" name="email">-->
@@ -42,20 +59,8 @@ form test
 <!--        <label for="password">Mot de passe</label>-->
 <!--        <input type="text" name="password">-->
 <!--    </div>-->
-<!---->
 <!--    <input type="submit">-->
-
-<form action="formTest.php" method="post">
-    <div>
-        <label for="email">Email</label>
-        <input type="text" name="email">
-    </div>
-    <div>
-        <label for="password">Mot de passe</label>
-        <input type="text" name="password">
-    </div>
-    <input type="submit">
-</form>
+<!--</form>-->
 </form>
 </body>
 </html>
